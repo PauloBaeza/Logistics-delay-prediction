@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.so
+*.dll
+*.exe
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# Environments (NO subir)
+venv/
+.venv/
+venv-fresh/
+.venv-fresh/
+.env
+.env.*
+
+# VS Code
+.vscode/
+
+"Generador dataset.py"
