@@ -1,4 +1,4 @@
-# 🚚 Predicción de atrasos en operaciones logísticas
+## 🚚 Predicción de atrasos en operaciones logísticas
 
 Este proyecto desarrolla un modelo de *Machine Learning* para predecir retrasos en operaciones logísticas y generar alertas tempranas sobre posibles casos críticos.
 
@@ -6,7 +6,7 @@ El objetivo es anticipar retrasos en la atención de camiones utilizando variabl
 
 ---
 
-# Descripción del proyecto
+## Descripción del proyecto
 
 En operaciones logísticas con alta carga operativa, los retrasos en la atención de camiones pueden generar congestión, ineficiencias y costos adicionales.
 
@@ -14,7 +14,7 @@ Este proyecto propone un enfoque basado en *Machine Learning* para estimar los m
 
 ---
 
-# Análisis exploratorio
+## Análisis exploratorio
 
 ## Distribución de atrasos por empresa y hora programada
 
@@ -40,7 +40,7 @@ Se observa un aumento en la mediana y en la dispersión de los atrasos hacia las
 
 ---
 
-# Metodología
+## Metodología
 
 El proyecto sigue las etapas típicas de un proyecto de Data Science:
 
@@ -53,7 +53,7 @@ El proyecto sigue las etapas típicas de un proyecto de Data Science:
 
 ---
 
-# Resultados del modelo
+## Resultados del modelo
 
 El modelo con mejor desempeño fue *XGBoost*, obteniendo:
 
@@ -65,7 +65,7 @@ Esto permite estimar los minutos de atraso con suficiente precisión para apoyar
 
 ---
 
-# Implicancias operacionales
+## Implicancias operacionales
 
 El modelo permite generar *alertas tempranas de retrasos*, lo que abre oportunidades para mejorar la gestión logística:
 
@@ -76,7 +76,7 @@ El modelo permite generar *alertas tempranas de retrasos*, lo que abre oportunid
 
 ---
 
-# Tecnologías utilizadas
+## Tecnologías utilizadas
 
 - Python
 - Pandas
@@ -90,7 +90,10 @@ El modelo permite generar *alertas tempranas de retrasos*, lo que abre oportunid
 
 ---
 
-# Estructura del repositorio
+## Estructura del repositorio
+## Estructura del repositorio
+
+
 Logistics-delay-prediction/
 │
 ├── Notebook/
@@ -100,8 +103,9 @@ Logistics-delay-prediction/
 │   └── figures/
 │       ├── heatmap_atrasos.png
 │       ├── carga_operacional_atrasos.png
+│       ├── distribucion_atrasos.png
 │       └── shap_importance.png
-│        └── distribucion_atrasos.png
+│
 ├── README.md
 ├── LICENSE
 └── requirements.txt
@@ -111,4 +115,5 @@ Logistics-delay-prediction/
 
 ## License
 
-Este proyecto está licenciado bajo la licencia MIT.
+Este proyecto está licenciado bajo la *MIT License*.  
+Puedes consultar el archivo [LICENSE](LICENSE) para más detalles.
