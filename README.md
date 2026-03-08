@@ -1,6 +1,4 @@
-# 🚚 Logistics Delay Prediction
-
-# Predicción de atrasos en operaciones logísticas
+# 🚚 Predicción de atrasos en operaciones logísticas
 
 Este proyecto desarrolla un modelo de *Machine Learning* para predecir retrasos en operaciones logísticas y generar alertas tempranas sobre posibles casos críticos.
 
@@ -38,7 +36,7 @@ Se observa una relación entre el volumen de operaciones programadas y el increm
 ![Distribución de atrasos](outputs/figures/distribucion_atrasos.png)
 
 El gráfico muestra cómo varía la distribución de los minutos de atraso dependiendo del bloque horario en que se programa la operación. 
-Se observa un aumento en la mediana y en la dispersión de los atrasos hacia las últimas horas del día, lo que sugiere un posible efecto de acumulación operacional. aparecen como factores relevantes en el comportamiento de los atrasos.
+Se observa un aumento en la mediana y en la dispersión de los atrasos hacia las últimas horas del día, lo que sugiere un posible efecto de acumulación operacional.
 
 ---
 
@@ -107,6 +105,8 @@ Logistics-delay-prediction/
 ├── README.md
 ├── LICENSE
 └── requirements.txt
+
+
 ------------------------------------------------------------------------
 
 ## License
