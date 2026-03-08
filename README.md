@@ -89,23 +89,23 @@ El modelo permite generar *alertas tempranas de retrasos*, lo que abre oportunid
 - Plotly
 
 ---
-## Estructura del repositorio
+# Estructura del repositorio
 
 
-# Logistics-delay-prediction/
-# Notebook/
+## Logistics-delay-prediction/
+## Notebook/
     - logistics-ml.ipynb
 
-# outputs/
+## outputs/
     - figures/
         - heatmap_atrasos.png
         - carga_operacional_atrasos.png
         - distribucion_atrasos.png
         - shap_importance.png
 
-README.md
-LICENSE
-requirements.txt
+- README.md
+- LICENSE
+- requirements.txt
 
 
 ------------------------------------------------------------------------
