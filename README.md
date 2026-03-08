@@ -93,7 +93,7 @@ El modelo permite generar *alertas tempranas de retrasos*, lo que abre oportunid
 
 
 # Logistics-delay-prediction/
- - Notebook/
+# Notebook/
     - logistics-ml.ipynb
 
 # outputs/
@@ -103,9 +103,9 @@ El modelo permite generar *alertas tempranas de retrasos*, lo que abre oportunid
         - distribucion_atrasos.png
         - shap_importance.png
 
-# README.md
-# LICENSE
-# requirements.txt
+README.md
+LICENSE
+requirements.txt
 
 
 ------------------------------------------------------------------------
