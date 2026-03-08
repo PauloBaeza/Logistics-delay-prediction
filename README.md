@@ -1,129 +1,114 @@
 # 🚚 Logistics Delay Prediction
 
-### Machine Learning for Operational Risk Management
+# Predicción de atrasos en operaciones logísticas
+
+Este proyecto desarrolla un modelo de *Machine Learning* para predecir retrasos en operaciones logísticas y generar alertas tempranas sobre posibles casos críticos.
+
+El objetivo es anticipar retrasos en la atención de camiones utilizando variables operacionales, permitiendo priorizar operaciones con mayor riesgo de atraso y apoyar la toma de decisiones en la gestión logística.
+
+---
+
+# Descripción del proyecto
+
+En operaciones logísticas con alta carga operativa, los retrasos en la atención de camiones pueden generar congestión, ineficiencias y costos adicionales.
+
+Este proyecto propone un enfoque basado en *Machine Learning* para estimar los minutos de atraso de una operación logística antes de su ejecución.
+
+---
+
+# Análisis exploratorio
+
+## Distribución de atrasos por empresa y hora programada
+
+![Heatmap atrasos](outputs/figures/heatmap_atrasos.png)
+
+Este gráfico muestra cómo varían los atrasos dependiendo de la empresa transportista y la hora programada.
+
+---
+
+## Carga operacional y atraso promedio
+
+![Carga operacional](outputs/figures/carga_operacional_atrasos.png)
+
+Se observa una relación entre el volumen de operaciones programadas y el incremento en los minutos de atraso promedio durante ciertos horarios del día.
+
+---
+## Distribución de atrasos por bloque horario
+
+![Distribución de atrasos](outputs/figures/distribucion_atrasos.png)
+
+El gráfico muestra cómo varía la distribución de los minutos de atraso dependiendo del bloque horario en que se programa la operación. 
+Se observa un aumento en la mediana y en la dispersión de los atrasos hacia las últimas horas del día, lo que sugiere un posible efecto de acumulación operacional. aparecen como factores relevantes en el comportamiento de los atrasos.
+
+---
+
+# Metodología
+
+El proyecto sigue las etapas típicas de un proyecto de Data Science:
+
+1. Análisis exploratorio de datos (EDA)
+2. Ingeniería de variables
+3. Entrenamiento de modelos de Machine Learning
+4. Evaluación comparativa de modelos
+5. Optimización de umbral para detección de atrasos críticos
+6. Interpretabilidad del modelo mediante SHAP
+
+---
+
+# Resultados del modelo
+
+El modelo con mejor desempeño fue *XGBoost*, obteniendo:
+
+- *MAE:* ~11–12 minutos  
+- *R²:* ~0.57  
+
+Esto permite estimar los minutos de atraso con suficiente precisión para apoyar decisiones operacionales.
 
 
-## Project Overview
+---
 
-This project develops a machine learning model to predict operational
-delays in logistics processes and optimize critical alert thresholds.
+# Implicancias operacionales
 
-The goal is not only to estimate delay in minutes, but to transform
-predictions into actionable operational decisions.
+El modelo permite generar *alertas tempranas de retrasos*, lo que abre oportunidades para mejorar la gestión logística:
 
-This simulation replicates a real-world logistics environment where
-predictive analytics can:
+- priorización de camiones con mayor riesgo de atraso
+- anticipación de congestión operacional
+- mejor planificación de recursos operativos
+- monitoreo del desempeño logístico
 
--   Reduce operational risk
--   Improve responsiveness
--   Enhance resource allocation
+---
 
+# Tecnologías utilizadas
 
-## Problem Statement
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- XGBoost
+- SHAP
+- Matplotlib
+- Seaborn
+- Plotly
 
-In logistics operations, delays generate:
+---
 
-- Operational congestion
-- Resource misallocation
-- Increased costs
-- Service-level deterioration
-
-The challenge is twofold:
-
-1.  Predict expected delay (regression problem)
-2.  Detect critical delays early enough to trigger preventive action
-
-
-## Methodology
-
-### 3.1 Data Preparation
-
--   Synthetic dataset simulating 24-hour logistics activity
--   Temporal variables (hour of day)
--   Categorical variables (company, operation type, load type)
--   Target variable: delay in minutes
-
-
-
-### 3.2 Exploratory Data Analysis (EDA)
-
-Key insights discovered:
-
--   Delay increases significantly after 18:00
--   Certain companies show structurally higher operational risk
--   Delay distribution is right-skewed with extreme outliers
-
-These findings justified the use of non-linear models.
-
-
-
-### 3.3 Models Evaluated
-
--   Linear Regression
--   Random Forest
--   XGBoost (Selected Model)
-
-
-
-## Model Performance
-  Best Model: XGBoost
-
-- MAE: ~11.6 minutes
-- R²: ~0.57
-
-The model explains approximately 57% of delay variability and predicts
-with an average error close to 12 minutes.
-
-
-
-## Critical Delay Detection
-
-Beyond regression, a binary operational classification was implemented.
-
--   Default threshold: 30 minutes
--   Optimized threshold: 25 minutes
-
-### Results
-
--   Recall at 30 minutes: ~0.62
--   Recall at 25 minutes: ~0.70
-
-Lowering the threshold improved early detection of critical delays while
-maintaining acceptable precision.
-
-
-
-## Operational Impact Metric
-
-Impact = Delay Frequency × Average Delay Severity
-
-This allows prioritization of high-risk companies by combining:
-
--   How often delays occur\
--   How severe those delays are
-
-
-
-## Tech Stack
-
--   Python
--   Pandas
--   Scikit-learn
--   XGBoost
--   Matplotlib
-
-
-## Project Structure
-
-logistics-ml/
-
-│── data/ → Synthetic dataset\
-│── Notebook/ → Model development and evaluation\
-│── requirements.txt → Dependencies\
-│── README.md
-
+# Estructura del repositorio
+Logistics-delay-prediction/
+│
+├── Notebook/
+│   └── logistics-ml.ipynb
+│
+├── outputs/
+│   └── figures/
+│       ├── heatmap_atrasos.png
+│       ├── carga_operacional_atrasos.png
+│       └── shap_importance.png
+│        └── distribucion_atrasos.png
+├── README.md
+├── LICENSE
+└── requirements.txt
 ------------------------------------------------------------------------
 
 ## License
 
-This project is licensed under the MIT License.
+Este proyecto está licenciado bajo la licencia MIT.
