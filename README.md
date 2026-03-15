@@ -18,7 +18,7 @@ Este proyecto propone un enfoque basado en *Machine Learning* para estimar los m
 
 ## Distribución de atrasos por empresa y hora programada
 
-![Heatmap atrasos](outputs/figures/heatmap_atrasos.png)
+![Heatmap atrasos](heatmap_atraso_promedio.png)
 
 Este gráfico muestra cómo varían los atrasos dependiendo de la empresa transportista y la hora programada.
 
