@@ -6,18 +6,10 @@ El objetivo del proyecto es analizar patrones de congestión en la atención de 
 
 ---
 
-# Problema
+## Contexto del problema
 
-En centros de almacenamiento logístico, los camiones deben ser atendidos en horarios programados para realizar operaciones de carga o descarga.
+En centros de almacenamiento logístico, los camiones llegan para realizar operaciones de carga o descarga en horarios previamente programados. Sin embargo, factores como la congestión operativa, la acumulación de camiones en determinadas franjas horarias o variaciones en los tiempos de operación pueden generar atrasos en la atención.
 
-Cuando múltiples transportistas llegan en horarios similares o se producen retrasos en operaciones previas, pueden generarse problemas como:
-
-- Congestión en los andenes de carga
-- Acumulación de camiones en patio
-- Aumento en los tiempos de espera
-- Menor eficiencia operativa del centro de distribución
-
-Comprender cuándo y por qué ocurren estos retrasos permite mejorar la planificación de las operaciones y anticipar situaciones de congestión.
 
 ---
 
@@ -89,10 +81,15 @@ Modelos evaluados:
 
 La evaluación se realizó utilizando las metricas MAE, R², recall y precision (para un umbral de atrasos superior a 30 min):
 
-  Modelo	      MAE	    R2      Recall_>30	  Precision_>30
-  XGBoost	      7.84	  0.75       0.79	          0.81
-  Linear	      8.89	  0.67       0.78           0.77
-  RandomForest	9.31	  0.65       0.73           0.78
+### Evaluación de modelos
+
+La evaluación se realizó utilizando las métricas **MAE, R², Recall y Precision** (para un umbral de atraso superior a 30 minutos).
+
+| Modelo        | MAE | R²  | Recall (>30 min) | Precision (>30 min) |
+|---------------|-----|-----|------------------|---------------------|
+| XGBoost       | 7.84 | 0.75 | 0.79 | 0.81 |
+| Linear        | 8.89 | 0.67 | 0.78 | 0.77 |
+| Random Forest | 9.31 | 0.65 | 0.73 | 0.78 |
 
 
 Dado estos resultados el modelo con mejor desempeño fue XGBoost, logrando capturar relaciones no lineales entre las variables operacionales.
