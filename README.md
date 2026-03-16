@@ -57,7 +57,7 @@ La distribución de atrasos muestra que la mayoría de las operaciones presentan
 
 El heatmap permite observar cómo ciertas empresas presentan mayores niveles de atraso en determinadas franjas horarias, lo que sugiere diferencias en comportamiento operativo o planificación logística.
 
-heatmap_atraso_promedio.png
+![heatmap_atraso_promedio Image](https://github.com/PauloBaeza/Logistics-delay-prediction/blob/main/outputs/figures/heatmap_atraso_promedio.png)
 
 ---
 
@@ -65,7 +65,7 @@ heatmap_atraso_promedio.png
 
 El análisis por día de la semana y hora permite identificar patrones temporales en los atrasos, evidenciando horarios donde la congestión operacional tiende a aumentar.
 
-heatmap_congestion_hora.png
+![heatmap_congestion_hora Image](https://github.com/PauloBaeza/Logistics-delay-prediction/blob/main/outputs/figures/heatmap_congestion_hora.png)
 
 ---
 
@@ -73,7 +73,7 @@ heatmap_congestion_hora.png
 
 Este gráfico compara el número promedio de camiones atendidos por hora con el atraso promedio observado. Se observa que en horarios con mayor carga operacional tienden a aumentar los niveles de atraso.
 
-cargaOP_promedio.png
+![cargaOP_promedio Image](https://github.com/PauloBaeza/Logistics-delay-prediction/blob/main/outputs/figures/cargaOP_promedio.png)
 
 ---
 
