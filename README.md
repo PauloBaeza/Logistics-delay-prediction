@@ -144,7 +144,7 @@ Se desarrolló además un dashboard interactivo en Streamlit para visualizar ope
 
 # Estructura del repositorio
 
-data/
+data/raw (set de datos sinteticos)
 
 notebook/
 
