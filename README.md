@@ -1,4 +1,4 @@
-# 🚚 Logistics Delay Prediction
+# Logistics Delay Prediction
 
 Proyecto de análisis y modelado predictivo orientado a identificar factores asociados a retrasos operacionales en un centro de almacenamiento logístico.
 
@@ -49,7 +49,7 @@ El análisis exploratorio permitió identificar patrones temporales y operaciona
 
 La distribución de atrasos muestra que la mayoría de las operaciones presentan retrasos moderados, aunque existe una cola hacia valores más altos que refleja eventos operacionales críticos.
 
-![dist_minutos_atraso Image](dist_minutos_atraso.png)
+![dist_minutos_atraso Image](https://github.com/PauloBaeza/Logistics-delay-prediction/blob/main/outputs/figures/dist_minutos_atraso.png)
 
 ---
 
