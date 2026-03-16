@@ -49,7 +49,7 @@ El análisis exploratorio permitió identificar patrones temporales y operaciona
 
 La distribución de atrasos muestra que la mayoría de las operaciones presentan retrasos moderados, aunque existe una cola hacia valores más altos que refleja eventos operacionales críticos.
 
-dist_minutos_atraso.png
+![dist_minutos_atraso.png](image-url)
 
 ---
 
