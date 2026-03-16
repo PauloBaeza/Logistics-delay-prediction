@@ -127,6 +127,8 @@ El modelo puede utilizarse para:
 - Priorizar operaciones críticas
 
 Se desarrolló además un dashboard interactivo en Streamlit para visualizar operaciones programadas y estimar atrasos en tiempo real.
+Link de acceso: https://logistics-delay-prediction.streamlit.app/ 
+(Para probar la app y visualizar la información se necesita ingresar un rango de fecha en el panel)
 
 ---
 
@@ -146,16 +148,18 @@ Se desarrolló además un dashboard interactivo en Streamlit para visualizar ope
 
 data/raw (set de datos sinteticos)
 
+app (Interfaz creada en streamlit)
+
 notebook/
 
 outputs/figures
+
 
 ---
 
 # Autor
 
-Paulo Baeza  
-Industrial Engineer | Data Analytics | Logistics Operations
+Paulo Baeza A.
 ------------------------------------------------------------------------
 
 ## License
