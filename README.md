@@ -87,26 +87,36 @@ Modelos evaluados:
 - Random Forest
 - XGBoost
 
-La evaluación se realizó utilizando:
+La evaluación se realizó utilizando las metricas MAE, R², recall y precision (para un umbral de atrasos superior a 30 min):
 
-- MAE (Mean Absolute Error)
-- R²
+  Modelo	      MAE	    R2      Recall_>30	  Precision_>30
+  XGBoost	      7.84	  0.75       0.79	          0.81
+  Linear	      8.89	  0.67       0.78           0.77
+  RandomForest	9.31	  0.65       0.73           0.78
 
-El modelo con mejor desempeño fue XGBoost, logrando capturar relaciones no lineales entre las variables operacionales.
+
+Dado estos resultados el modelo con mejor desempeño fue XGBoost, logrando capturar relaciones no lineales entre las variables operacionales.
+
 
 ---
 
-# Interpretabilidad del modelo
+# Optimización del umbral de alerta
 
-Se utilizó SHAP (SHapley Additive Explanations) para analizar la importancia de las variables en las predicciones del modelo.
+El modelo predice los minutos de atraso esperados para cada operación. Para su uso operativo, se definió un umbral a partir del cual una operación se considera crítica.
 
-El análisis permitió identificar variables con mayor influencia en los retrasos, como:
+Se evaluaron dos escenarios:
 
-- horario de operación
-- empresa transportista
-- tipo de operación
+**Umbral tradicional (30 min)**  
+- Recall: ~0.79  
+- Precision: ~0.81  
+- Alertas generadas: 2.804
 
-Esto permite entender no solo cuándo ocurren los atrasos, sino también qué factores contribuyen a ellos.
+**Umbral optimizado (27 min)**  
+- Recall: ~0.87  
+- Precision: ~0.76  
+- Alertas generadas: 3.287
+
+Reducir el umbral a **27 minutos** permite detectar una mayor proporción de atrasos críticos, generando **483 alertas adicionales**. En un contexto operacional, esto es preferible, ya que no detectar un atraso relevante puede afectar la planificación logística.
 
 ---
 
