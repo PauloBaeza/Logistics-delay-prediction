@@ -71,7 +71,26 @@ Este gráfico compara el número promedio de camiones atendidos por hora con el 
 
 # Modelado Predictivo
 
-Se entrenaron distintos modelos de regresión para estimar el atraso esperado de una operación logística.
+## Variables utilizadas
+
+Variable objetivo:
+- minutos_atraso: minutos de retraso respecto a la hora programada.
+
+Variables numéricas:
+- hora_programada_min: hora programada en minutos.
+- es_fin_semana: indicador de fin de semana (1/0).
+
+Variables categóricas:
+- empresa: empresa de transporte.
+- patente: identificador del vehículo.
+- tipo_operacion: tipo de operación.
+- tipo_carga: tipo de carga.
+- dia_semana: día de la semana.
+- mes: mes de la operación.
+
+Preprocesamiento:
+- One-Hot Encoding para variables categóricas.
+- Variables numéricas sin transformación.
 
 Modelos evaluados:
 
