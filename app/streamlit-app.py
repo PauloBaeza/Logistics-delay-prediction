@@ -4,18 +4,17 @@ import plotly.express as px
 import streamlit as st
 from pathlib import Path
 
-# =========================
+
 # Configuración página
-# =========================
+
 st.set_page_config(
     page_title="Logistics Analytics",
     page_icon="",
     layout="wide",
 )
 
-# =========================
+
 # CSS / estilo
-# =========================
 st.markdown("""
 <style>
     .stApp {
@@ -136,9 +135,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# =========================
 # Paths
-# =========================
+
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = BASE_DIR.parent
 
@@ -154,9 +152,9 @@ DATA_CANDIDATES = [
     BASE_DIR / "data" / "raw" / "logistics_24h_hhmmss.csv",
 ]
 
-# =========================
+
 # Carga modelo / datos
-# =========================
+
 @st.cache_resource
 def load_model():
     for path in MODEL_CANDIDATES:
@@ -184,9 +182,9 @@ def load_data():
 model = load_model()
 df = load_data()
 
-# =========================
+
 # Normalización / features
-# =========================
+
 if "fecha" not in df.columns:
     st.error("El dataset debe contener la columna 'fecha'.")
     st.stop()
@@ -269,9 +267,8 @@ for col in predict_cols:
         st.error(f"Falta una columna que el modelo necesita: '{col}'")
         st.stop()
 
-# =========================
 # Predicción
-# =========================
+
 pred_input = df[predict_cols].copy()
 df["atraso_estimado"] = model.predict(pred_input)
 
@@ -296,9 +293,9 @@ def riesgo_color_text(riesgo: str) -> str:
         "Bajo": "#22c55e",
     }.get(riesgo, "#94a3b8")
 
-# =========================
+
 # Sidebar filtros
-# =========================
+
 st.markdown('<div class="app-title">Logistics Analytics</div>', unsafe_allow_html=True)
 
 fecha_min = df["fecha"].min().date()
@@ -326,9 +323,9 @@ with st.sidebar:
     max_h = int(df["hora_programada_min"].max() // 60)
     rango_horas = st.slider("Rango horario", 0, 23, (min_h, max_h))
 
-# =========================
+
 # Aplicar filtros
-# =========================
+
 df_f = df.copy()
 
 # fecha / rango
@@ -359,9 +356,9 @@ df_f = df_f[
 
 df_f = df_f.sort_values("atraso_estimado", ascending=False).reset_index(drop=True)
 
-# =========================
+
 # KPIs
-# =========================
+
 total_ops = len(df_f)
 avg_delay = float(df_f["atraso_estimado"].mean()) if total_ops else 0.0
 critical_ops = int((df_f["atraso_estimado"] >= UMBRAL_CRITICO).sum()) if total_ops else 0
@@ -433,9 +430,9 @@ with k4:
 
 st.markdown("<div style='height:0.8rem'></div>", unsafe_allow_html=True)
 
-# =========================
+
 # Tabla principal + resumen lateral
-# =========================
+
 left, right = st.columns([4.4, 1.2], gap="large")
 
 with left:
@@ -536,9 +533,9 @@ with right:
 
 st.markdown("<div style='height:0.8rem'></div>", unsafe_allow_html=True)
 
-# =========================
+
 # Gráficos inferiores
-# =========================
+
 g1, g2 = st.columns(2, gap="large")
 
 with g1:
