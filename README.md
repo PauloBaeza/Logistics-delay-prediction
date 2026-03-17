@@ -79,7 +79,6 @@ Modelos evaluados:
 - Random Forest
 - XGBoost
 
-La evaluación se realizó utilizando las metricas MAE, R², recall y precision (para un umbral de atrasos superior a 30 min):
 
 ### Evaluación de modelos
 
