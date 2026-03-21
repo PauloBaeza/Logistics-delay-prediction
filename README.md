@@ -78,7 +78,6 @@ Variable objetivo:
 
 Variables numéricas:
 - hora_programada_min: hora programada en minutos.
-- es_fin_semana: indicador de fin de semana (1/0).
 
 Variables categóricas:
 - empresa: empresa de transporte.
@@ -86,7 +85,6 @@ Variables categóricas:
 - tipo_operacion: tipo de operación.
 - tipo_carga: tipo de carga.
 - dia_semana: día de la semana.
-- mes: mes de la operación.
 
 Preprocesamiento:
 - One-Hot Encoding para variables categóricas.
@@ -105,33 +103,12 @@ La evaluación se realizó utilizando las métricas **MAE, R², Recall y Precisi
 
 | Modelo        | MAE | R²  | Recall (>30 min) | Precision (>30 min) |
 |---------------|-----|-----|------------------|---------------------|
-| XGBoost       | 7.84 | 0.75 | 0.79 | 0.81 |
-| Linear        | 8.89 | 0.67 | 0.78 | 0.77 |
-| Random Forest | 9.31 | 0.65 | 0.73 | 0.78 |
+| XGBoost       | 7.70 | 0.75 | 0.79 | 0.81 |
+| Linear        | 8.81 | 0.67 | 0.78 | 0.76 |
+| Random Forest | 9.29 | 0.65 | 0.72 | 0.78 |
 
 
 Dado estos resultados el modelo con mejor desempeño fue XGBoost, logrando capturar relaciones no lineales entre las variables operacionales.
-
-
----
-
-# Optimización del umbral de alerta
-
-El modelo predice los minutos de atraso esperados para cada operación. Para su uso operativo, se definió un umbral a partir del cual una operación se considera crítica.
-
-Se evaluaron dos escenarios:
-
-**Umbral tradicional (30 min)**  
-- Recall: ~0.79  
-- Precision: ~0.81  
-- Alertas generadas: 2.804
-
-**Umbral optimizado (27 min)**  
-- Recall: ~0.87  
-- Precision: ~0.76  
-- Alertas generadas: 3.287
-
-Reducir el umbral a **27 minutos** permite detectar una mayor proporción de atrasos críticos, generando **483 alertas adicionales**. En un contexto operacional, esto es preferible, ya que no detectar un atraso relevante puede afectar la planificación logística.
 
 ---
 
