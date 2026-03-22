@@ -1,18 +1,32 @@
-import joblib
+﻿import joblib
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 from pathlib import Path
 
 
-# Configuración página
+# Configuracion pagina
 
 st.set_page_config(
-    page_title="Logistics Analytics",
+    page_title="Análisis de Atrasos en Logística",
     page_icon="",
     layout="wide",
 )
-
+# Paleta central
+COLORS = {
+    "bg": "#081225",
+    "panel": "#12203b",
+    "text": "#f8fafc",
+    "muted": "#94a3b8",
+    "grid": "rgba(255,255,255,0.08)",
+    "primary": "#3b82f6",
+    "primary_light": "#60a5fa",
+    "success": "#22c55e",
+    "warning": "#f59e0b",
+    "danger": "#ef4444",
+    "danger_dark": "#b91c1c",
+    "neutral": "#64748b",
+}
 
 # CSS / estilo
 st.markdown("""
@@ -28,7 +42,7 @@ st.markdown("""
     }
 
     .block-container {
-        padding-top: 1.2rem;
+        padding-top: 2.4rem;
         padding-bottom: 1rem;
         max-width: 1500px;
     }
@@ -40,7 +54,8 @@ st.markdown("""
     .app-title {
         font-size: 2.2rem;
         font-weight: 700;
-        margin-bottom: 1rem;
+        margin-top: 0.35rem;
+        margin-bottom: 1.35rem;
         color: #ffffff;
     }
 
@@ -162,7 +177,7 @@ def load_model():
             return joblib.load(path)
 
     st.error(
-        "No se encontró el modelo. Revisa alguna de estas rutas:\n\n"
+        "No se encontro el modelo. Revisa alguna de estas rutas:\n\n"
         + "\n".join([str(p) for p in MODEL_CANDIDATES])
     )
     st.stop()
@@ -174,7 +189,7 @@ def load_data():
             return pd.read_csv(path)
 
     st.error(
-        "No se encontró el CSV base. Revisa alguna de estas rutas:\n\n"
+        "No se encontro el CSV base. Revisa alguna de estas rutas:\n\n"
         + "\n".join([str(p) for p in DATA_CANDIDATES])
     )
     st.stop()
@@ -183,7 +198,7 @@ model = load_model()
 df = load_data()
 
 
-# Normalización / features
+# Normalizacion / features
 
 if "fecha" not in df.columns:
     st.error("El dataset debe contener la columna 'fecha'.")
@@ -220,10 +235,10 @@ if "hora_programada" not in df.columns:
 mapa_dias = {
     0: "Lunes",
     1: "Martes",
-    2: "Miércoles",
+    2: "Miercoles",
     3: "Jueves",
     4: "Viernes",
-    5: "Sábado",
+    5: "Sabado",
     6: "Domingo",
 }
 
@@ -249,7 +264,7 @@ if "mes" not in df.columns:
     df["mes"] = df["fecha"].dt.month.map(mapa_meses)
 
 if "es_fin_semana" not in df.columns:
-    df["es_fin_semana"] = df["dia_semana"].isin(["Sábado", "Domingo"]).astype(int)
+    df["es_fin_semana"] = df["dia_semana"].isin(["Sabado", "Domingo"]).astype(int)
 
 predict_cols = [
     "empresa",
@@ -267,7 +282,7 @@ for col in predict_cols:
         st.error(f"Falta una columna que el modelo necesita: '{col}'")
         st.stop()
 
-# Predicción
+# Prediccion
 
 pred_input = df[predict_cols].copy()
 df["atraso_estimado"] = model.predict(pred_input)
@@ -276,7 +291,7 @@ UMBRAL_CRITICO = 27
 
 def clasificar_riesgo(x: float) -> str:
     if x >= UMBRAL_CRITICO:
-        return "Crítico"
+        return "Critico"
     if x >= 19:
         return "Alto"
     if x >= 11:
@@ -285,18 +300,18 @@ def clasificar_riesgo(x: float) -> str:
 
 df["riesgo"] = df["atraso_estimado"].apply(clasificar_riesgo)
 
+
 def riesgo_color_text(riesgo: str) -> str:
     return {
-        "Crítico": "#ef4444",
-        "Alto": "#f59e0b",
-        "Medio": "#60a5fa",
-        "Bajo": "#22c55e",
-    }.get(riesgo, "#94a3b8")
-
+        "Critico": COLORS["danger"],
+        "Alto": COLORS["warning"],
+        "Medio": COLORS["primary_light"],
+        "Bajo": COLORS["success"],
+    }.get(riesgo, COLORS["muted"])
 
 # Sidebar filtros
 
-st.markdown('<div class="app-title">Logistics Analytics</div>', unsafe_allow_html=True)
+st.markdown('<div class="app-title">Predicción de Atrasos</div>', unsafe_allow_html=True)
 
 fecha_min = df["fecha"].min().date()
 fecha_max = df["fecha"].max().date()
@@ -316,12 +331,27 @@ with st.sidebar:
     tipos_carga = ["Todas"] + sorted(df["tipo_carga"].dropna().astype(str).unique().tolist())
 
     empresa_sel = st.selectbox("Empresa transportista", empresas)
-    tipo_op_sel = st.selectbox("Tipo de operación", tipos_operacion)
+    tipo_op_sel = st.selectbox("Tipo de operacion", tipos_operacion)
     tipo_carga_sel = st.selectbox("Tipo de carga", tipos_carga)
 
     min_h = int(df["hora_programada_min"].min() // 60)
     max_h = int(df["hora_programada_min"].max() // 60)
     rango_horas = st.slider("Rango horario", 0, 23, (min_h, max_h))
+
+rango_fechas_completo = (
+    isinstance(rango_fechas, tuple)
+    and len(rango_fechas) == 2
+    and rango_fechas[0] == fecha_min
+    and rango_fechas[1] == fecha_max
+)
+
+filtros_activos = not (
+    rango_fechas_completo
+    and empresa_sel == "Todas"
+    and tipo_op_sel == "Todas"
+    and tipo_carga_sel == "Todas"
+    and rango_horas == (min_h, max_h)
+)
 
 
 # Aplicar filtros
@@ -356,6 +386,14 @@ df_f = df_f[
 
 df_f = df_f.sort_values("atraso_estimado", ascending=False).reset_index(drop=True)
 
+if not filtros_activos:
+    st.info("Selecciona una fecha o aplica algun filtro para visualizar resultados.")
+    st.stop()
+
+if df_f.empty:
+    st.warning("No hay registros para los filtros seleccionados.")
+    st.stop()
+
 
 # KPIs
 
@@ -386,7 +424,7 @@ with k1:
     <div class="kpi-card">
         <div class="kpi-label">Operaciones filtradas</div>
         <div class="kpi-value">{total_ops}</div>
-        <div class="kpi-sub">según filtros seleccionados</div>
+        <div class="kpi-sub">segun filtros seleccionados</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -402,15 +440,15 @@ with k2:
 with k3:
     st.markdown(f"""
     <div class="kpi-card">
-        <div class="kpi-label">Alertas críticas</div>
+        <div class="kpi-label">Alertas criticas</div>
         <div class="kpi-value">{critical_ops}</div>
-        <div class="kpi-sub">umbral crítico: {UMBRAL_CRITICO} min</div>
+        <div class="kpi-sub">umbral critico: {UMBRAL_CRITICO} min</div>
     </div>
     """, unsafe_allow_html=True)
 
 with k4:
     pill_class = (
-        "pill-critical" if top_risk == "Crítico"
+        "pill-critical" if top_risk == "Critico"
         else "pill-high" if top_risk == "Alto"
         else "pill-medium" if top_risk == "Medio"
         else "pill-low"
@@ -418,9 +456,9 @@ with k4:
 
     st.markdown(f"""
     <div class="critical-card">
-        <div class="kpi-label">Operación con mayor riesgo</div>
+        <div class="kpi-label">Operacion con mayor riesgo</div>
         <div style="font-size:1.35rem; font-weight:800; color:#ffffff;">{top_empresa}</div>
-        <div class="kpi-sub">{top_patente} · {top_fecha} · {top_hora}</div>
+        <div class="kpi-sub">{top_patente} - {top_fecha} - {top_hora}</div>
         <div style="font-size:1.2rem; font-weight:700; color:{riesgo_color_text(top_risk)}; margin-top:0.35rem;">
             {top_delay:.1f} min
         </div>
@@ -433,7 +471,7 @@ st.markdown("<div style='height:0.8rem'></div>", unsafe_allow_html=True)
 
 # Tabla principal + resumen lateral
 
-left, right = st.columns([4.4, 1.2], gap="large")
+left, right = st.columns([5.2, 1.0], gap="medium")
 
 with left:
     st.markdown('<div class="panel">', unsafe_allow_html=True)
@@ -446,8 +484,6 @@ with left:
         "tipo_operacion",
         "tipo_carga",
         "hora_programada",
-        "dia_semana",
-        "mes",
         "atraso_estimado",
         "riesgo",
     ]
@@ -455,36 +491,53 @@ with left:
     df_table = df_f[table_cols].copy()
 
     df_table["fecha"] = pd.to_datetime(df_table["fecha"]).dt.strftime("%d-%m-%Y")
-    df_table["atraso_estimado"] = df_table["atraso_estimado"].round(1)
+    df_table["atraso_estimado"] = df_table["atraso_estimado"].round(2)
 
     df_table.columns = [
         "Fecha",
         "Empresa",
         "Patente",
-        "Tipo Operación",
+        "Tipo Operacion",
         "Tipo Carga",
         "Hora Programada",
-        "Día",
-        "Mes",
-        "Atraso Estimado",
+        "Atraso Estimado (min)",
         "Riesgo",
     ]
 
     def style_risk(val):
         colors = {
-            "Crítico": "background-color: rgba(239,68,68,0.18); color: #fecaca; font-weight:700;",
-            "Alto": "background-color: rgba(245,158,11,0.18); color: #fde68a; font-weight:700;",
-            "Medio": "background-color: rgba(59,130,246,0.18); color: #bfdbfe; font-weight:700;",
-            "Bajo": "background-color: rgba(34,197,94,0.18); color: #bbf7d0; font-weight:700;",
-        }
+            "Critico": "background-color: rgba(239,68,68,0.16); color: #fecaca; font-weight:700;",
+            "Alto": "background-color: rgba(245,158,11,0.16); color: #fde68a; font-weight:700;",
+            "Medio": "background-color: rgba(59,130,246,0.16); color: #bfdbfe; font-weight:700;",
+            "Bajo": "background-color: rgba(34,197,94,0.16); color: #bbf7d0; font-weight:700;",}
         return colors.get(val, "")
-
-    styled = df_table.style.map(style_risk, subset=["Riesgo"])
+     
+   
+    max_styled_cells = 262144
+    if len(df_table) * len(df_table.columns) <= max_styled_cells:
+        table_view = df_table.style.map(style_risk, subset=["Riesgo"])
+    else:
+        table_view = df_table
 
     st.dataframe(
-        styled,
+        table_view,
         use_container_width=True,
-        height=430
+        hide_index=True,
+        column_config={
+            "Fecha": st.column_config.TextColumn("Fecha", width="small"),
+            "Empresa": st.column_config.TextColumn("Empresa", width="medium"),
+            "Patente": st.column_config.TextColumn("Patente", width="small"),
+            "Tipo Operacion": st.column_config.TextColumn("Tipo Operacion", width="small"),
+            "Tipo Carga": st.column_config.TextColumn("Tipo Carga", width="small"),
+            "Hora Programada": st.column_config.TextColumn("Hora Programada", width="small"),
+            "Atraso Estimado (min)": st.column_config.NumberColumn(
+                "Atraso Estimado (min)",
+                format="%.2f",
+                width="small",
+            ),
+            "Riesgo": st.column_config.TextColumn("Riesgo", width="small"),
+        },
+        height=430,
     )
 
     st.markdown(
@@ -495,7 +548,7 @@ with left:
 
 with right:
     st.markdown('<div class="panel">', unsafe_allow_html=True)
-    st.subheader("Resumen rápido")
+    st.subheader("Resumen rapido")
     st.write(f"**Empresa top riesgo:** {top_empresa}")
     st.write(f"**Patente:** {top_patente}")
     st.write(f"**Fecha:** {top_fecha}")
@@ -503,18 +556,17 @@ with right:
     st.write(f"**Atraso estimado:** {top_delay:.1f} min")
     st.write(f"**Riesgo:** {top_risk}")
 
-    risk_counts = df_f["riesgo"].value_counts().reindex(["Bajo", "Medio", "Alto", "Crítico"], fill_value=0)
+    risk_counts = df_f["riesgo"].value_counts().reindex(["Bajo", "Medio", "Alto", "Critico"], fill_value=0)
 
     fig_risk = px.bar(
         x=risk_counts.index,
         y=risk_counts.values,
         color=risk_counts.index,
         color_discrete_map={
-            "Bajo": "#22c55e",
-            "Medio": "#60a5fa",
-            "Alto": "#f59e0b",
-            "Crítico": "#ef4444",
-        },
+            "Bajo": COLORS["success"],
+            "Medio": COLORS["primary"],
+            "Alto": COLORS["warning"],
+            "Critico": COLORS["danger"],},
         template="plotly_dark"
     )
     fig_risk.update_layout(
@@ -524,23 +576,21 @@ with right:
         showlegend=False,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="white"),
+        font=dict(color="white", family="Inter, sans-serif"),
     )
     fig_risk.update_xaxes(title=None)
-    fig_risk.update_yaxes(title=None, gridcolor="rgba(255,255,255,0.08)")
-    st.plotly_chart(fig_risk, use_container_width=True)
+    fig_risk.update_yaxes(title=None, gridcolor=COLORS["grid"], zeroline=False)
+    st.plotly_chart(fig_risk, use_container_width=True, key="risk_chart")
     st.markdown("</div>", unsafe_allow_html=True)
 
-st.markdown("<div style='height:0.8rem'></div>", unsafe_allow_html=True)
 
-
-# Gráficos inferiores
+# Graficos inferiores
 
 g1, g2 = st.columns(2, gap="large")
 
 with g1:
     st.markdown('<div class="panel">', unsafe_allow_html=True)
-    st.subheader("Distribución de atrasos estimados")
+    st.subheader("Distribucion de atrasos estimados")
 
     bins = [-999, 0, 5, 10, 15, 20, 30, 45, 999]
     labels = ["<0", "0-5", "5-10", "10-15", "15-20", "20-30", "30-45", "45+"]
@@ -569,7 +619,7 @@ with g1:
     )
     fig_dist.update_xaxes(title=None)
     fig_dist.update_yaxes(title=None, gridcolor="rgba(255,255,255,0.08)")
-    st.plotly_chart(fig_dist, use_container_width=True)
+    st.plotly_chart(fig_dist, use_container_width=True, key="delay_distribution_chart")
     st.markdown("</div>", unsafe_allow_html=True)
 
 with g2:
@@ -584,28 +634,30 @@ with g2:
     )
     top_emp["atraso_estimado"] = top_emp["atraso_estimado"].round(1)
 
+
     fig_emp = px.bar(
         top_emp.sort_values("atraso_estimado", ascending=True),
         x="atraso_estimado",
         y="empresa",
         orientation="h",
         text="atraso_estimado",
-        template="plotly_dark"
-    )
+        template="plotly_dark")
+    
     fig_emp.update_traces(
-        marker_color="#f59e0b",
+        marker_color=COLORS["primary"],
+        marker_line_width=0,
         texttemplate="%{text:.1f} min",
-        textposition="outside"
-    )
+        textposition="outside",
+        hovertemplate="<b>%{y}</b><br>Atraso promedio: %{x:.1f} min<extra></extra>")
+    
     fig_emp.update_layout(
         height=320,
         margin=dict(l=10, r=40, t=10, b=10),
         showlegend=False,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="white"),
-    )
-    fig_emp.update_xaxes(title=None, gridcolor="rgba(255,255,255,0.08)")
+        font=dict(color="white", family="Inter, sans-serif"),)
+    
+    fig_emp.update_xaxes(title=None, gridcolor=COLORS["grid"], zeroline=False)
     fig_emp.update_yaxes(title=None)
-    st.plotly_chart(fig_emp, use_container_width=True)
-    st.markdown("</div>", unsafe_allow_html=True)
+    st.plotly_chart(fig_emp, use_container_width=True, key="company_delay_chart")
