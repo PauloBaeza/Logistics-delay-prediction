@@ -1,4 +1,4 @@
-# Logistics Delay Prediction
+# Predicción de atrasos
 
 Proyecto de análisis y modelado predictivo orientado a identificar factores asociados a retrasos operacionales en un centro de almacenamiento logístico.
 
