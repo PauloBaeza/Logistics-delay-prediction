@@ -35,11 +35,11 @@ que representa la diferencia entre el horario programado y el momento real de la
 
 # Exploratory Data Analysis (EDA)
 
-El análisis exploratorio permitió identificar patrones temporales y operacionales asociados a los retrasos.
+El análisis exploratorio permitió identificar patrones temporales y operacionales asociados a los atrasos.
 
 ## Distribución de atrasos
 
-La distribución de atrasos muestra que la mayoría de las operaciones presentan retrasos moderados, aunque existe una cola hacia valores más altos que refleja eventos operacionales críticos.
+La distribución de atrasos muestra que la mayoría de las operaciones presentan un atraso moderados, aunque existe una cola hacia valores más altos que refleja eventos operacionales críticos.
 
 ![dist_minutos_atraso Image](https://github.com/PauloBaeza/Logistics-delay-prediction/blob/main/outputs/figures/dist_minutos_atraso.png)
 
@@ -47,7 +47,7 @@ La distribución de atrasos muestra que la mayoría de las operaciones presentan
 
 ## Atraso promedio por empresa y hora
 
-El heatmap permite observar cómo ciertas empresas presentan mayores niveles de atraso en determinadas franjas horarias, lo que sugiere diferencias en comportamiento operativo o planificación logística.
+El heatmap permite observar cómo ciertas empresas presentan mayores niveles de atraso en determinadas franjas horarias, lo que sugiere que existen diferencias en el comportamiento operativo o en planificación logística, de acuerdo con la empresa.
 
 ![heatmap_atraso_promedio Image](https://github.com/PauloBaeza/Logistics-delay-prediction/blob/main/outputs/figures/heatmap_atraso_promedio.png)
 
@@ -63,7 +63,7 @@ El análisis por día de la semana y hora permite identificar patrones temporale
 
 ## Relación entre carga operacional y atrasos
 
-Este gráfico compara el número promedio de camiones atendidos por hora con el atraso promedio observado. Se observa que en horarios con mayor carga operacional tienden a aumentar los niveles de atraso.
+Este gráfico compara el número promedio de camiones atendidos por hora con el atraso promedio. Se observa que en horarios con mayor carga operacional tienden a aumentar los niveles de atraso.
 
 ![cargaOP_promedio Image](https://github.com/PauloBaeza/Logistics-delay-prediction/blob/main/outputs/figures/cargaOP_promedio.png)
 
@@ -81,10 +81,10 @@ Variables numéricas:
 
 Variables categóricas:
 - empresa: empresa de transporte.
-- patente: identificador del vehículo.
-- tipo_operacion: tipo de operación.
-- tipo_carga: tipo de carga.
-- dia_semana: día de la semana.
+- patente: identificador del camión.
+- tipo_operacion: tipo de operación (despacho/recepción).
+- tipo_carga: tipo de carga (carga suelta/pallet).
+- dia_semana: día de la semana de la operación.
 
 Preprocesamiento:
 - One-Hot Encoding para variables categóricas.
@@ -122,8 +122,7 @@ El modelo puede utilizarse para:
 - Priorizar operaciones críticas
 
 Se desarrolló además un dashboard interactivo en Streamlit para visualizar operaciones programadas y estimar atrasos en tiempo real.
-Link de acceso: https://logistics-delay-prediction.streamlit.app/ 
-(Para probar la app y visualizar la información se necesita ingresar un rango de fecha en el panel)
+Link de acceso para probar la app: https://logistics-delay-prediction.streamlit.app/ 
 
 ---
 
